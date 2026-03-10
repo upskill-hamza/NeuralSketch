@@ -1,0 +1,48 @@
+/* ─────────────────────────────────────────
+   Header Component Styles
+───────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2.5rem 1rem;
+  background: transparent;
+  position: relative;
+  z-index: 100;
+  text-align: center;
+}
+
+.header-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.header-title {
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff, var(--violet-light) 60%, var(--aurora-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.04em;
+  filter: drop-shadow(0 4px 20px rgba(139, 92, 246, 0.4));
+}
+
+.header-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}

@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.so
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Model data & weights (large files)
+model/data/
+
+# Node / React
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+.npm/
+
+# Docker
+.docker/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
