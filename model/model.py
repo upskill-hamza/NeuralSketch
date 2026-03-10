@@ -9,7 +9,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
 class ConvBlock(nn.Module):
     """Conv2d → BatchNorm2d → ReLU → MaxPool2d"""
 
@@ -26,7 +25,6 @@ class ConvBlock(nn.Module):
 
     def forward(self, x):
         return self.block(x)
-
 
 class SketchCNN(nn.Module):
     """
@@ -69,7 +67,6 @@ class SketchCNN(nn.Module):
         x = self.classifier(x)
         return x
 
-
 def get_model(num_classes: int = 50, pretrained_path: str = None) -> SketchCNN:
     """Instantiate model, optionally load weights."""
     model = SketchCNN(num_classes=num_classes)
@@ -78,7 +75,6 @@ def get_model(num_classes: int = 50, pretrained_path: str = None) -> SketchCNN:
         model.load_state_dict(state)
         model.eval()
     return model
-
 
 if __name__ == "__main__":
     model = SketchCNN()

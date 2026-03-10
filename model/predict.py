@@ -15,7 +15,6 @@ from categories import CATEGORIES, CATEGORY_EMOJIS, NUM_CLASSES
 
 IMG_SIZE = 28
 
-
 def preprocess_image(image_input) -> torch.Tensor:
     """
     Convert various input types to a (1,1,28,28) float32 tensor.
@@ -23,7 +22,7 @@ def preprocess_image(image_input) -> torch.Tensor:
     The sketch is expected to be dark strokes on a white background.
     """
     if isinstance(image_input, str):
-        # base64 PNG
+
         image_input = image_input.split(",")[-1]  # strip data URI prefix if present
         image_bytes = base64.b64decode(image_input)
         img = Image.open(io.BytesIO(image_bytes)).convert("L")
@@ -36,14 +35,12 @@ def preprocess_image(image_input) -> torch.Tensor:
     else:
         raise TypeError(f"Unsupported input type: {type(image_input)}")
 
-    # Invert: Quick, Draw! uses white strokes on black background
     img = ImageOps.invert(img)
     img = img.resize((IMG_SIZE, IMG_SIZE), Image.LANCZOS)
 
     arr = np.array(img, dtype=np.float32) / 255.0
     tensor = torch.tensor(arr).unsqueeze(0).unsqueeze(0)  # (1,1,28,28)
     return tensor
-
 
 def predict(
     image_input,
@@ -83,7 +80,6 @@ def predict(
             "confidence": round(val, 4),
         })
     return results
-
 
 if __name__ == "__main__":
     import sys

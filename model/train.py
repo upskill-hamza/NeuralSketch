@@ -20,7 +20,6 @@ from categories import NUM_CLASSES
 WEIGHTS_DIR = os.path.join(os.path.dirname(__file__), "weights")
 BEST_MODEL_PATH = os.path.join(WEIGHTS_DIR, "best_model.pth")
 
-
 def train_epoch(model, loader, criterion, optimizer, device):
     model.train()
     total_loss, correct, total = 0.0, 0, 0
@@ -38,7 +37,6 @@ def train_epoch(model, loader, criterion, optimizer, device):
 
     return total_loss / total, correct / total
 
-
 @torch.no_grad()
 def val_epoch(model, loader, criterion, device):
     model.eval()
@@ -52,12 +50,10 @@ def val_epoch(model, loader, criterion, device):
         total += imgs.size(0)
     return total_loss / total, correct / total
 
-
 def main(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
-    # --- Data ---
     print("Preparing data ...")
     download_data()
     train_loader, val_loader = get_loaders(
@@ -65,7 +61,6 @@ def main(args):
         samples_per_class=args.samples_per_class
     )
 
-    # --- Model ---
     model = SketchCNN(num_classes=NUM_CLASSES).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=args.lr, weight_decay=1e-4)
@@ -102,7 +97,6 @@ def main(args):
 
     print(f"\nBest val accuracy: {best_val_acc:.2%}")
     print(f"Weights saved to: {BEST_MODEL_PATH}")
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train NeuralSketch CNN")

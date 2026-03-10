@@ -22,7 +22,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-# Add model dir to path so we can import from it
 MODEL_DIR = os.path.join(os.path.dirname(__file__), "..", "model")
 sys.path.insert(0, MODEL_DIR)
 
@@ -35,13 +34,8 @@ logger = logging.getLogger("neuralsketch")
 IMG_SIZE = 28
 WEIGHTS_PATH = os.path.join(MODEL_DIR, "weights", "best_model.pth")
 
-# Global model reference (loaded at startup)
 _model: Optional[torch.nn.Module] = None
 
-
-# ──────────────────────────────────────────────
-# Startup / shutdown
-# ──────────────────────────────────────────────
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global _model
@@ -59,7 +53,6 @@ async def lifespan(app: FastAPI):
     yield
     logger.info("Shutting down.")
 
-
 app = FastAPI(
     title="NeuralSketch API",
     description="Real-time sketch recognition powered by a CNN trained on Quick, Draw!",
@@ -67,9 +60,6 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# ──────────────────────────────────────────────
-# CORS — allow the React frontend
-# ──────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -77,14 +67,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-# ──────────────────────────────────────────────
-# Schemas
-# ──────────────────────────────────────────────
 class PredictRequest(BaseModel):
     image: str  # base64-encoded PNG (data URI or raw base64)
     top_k: int = 5
-
 
 class Prediction(BaseModel):
     label: str
@@ -92,68 +77,50 @@ class Prediction(BaseModel):
     confidence: float
     rank: int
 
-
 class PredictResponse(BaseModel):
     predictions: list[Prediction]
     model_loaded: bool
 
-
-# ──────────────────────────────────────────────
-# Helpers
-# ──────────────────────────────────────────────
 def decode_image(b64: str) -> torch.Tensor:
     """Decode base64 image → (1,1,28,28) float32 tensor."""
-    # Strip data URI prefix if present
+
     if "," in b64:
         b64 = b64.split(",", 1)[1]
     img_bytes = base64.b64decode(b64)
-    
-    # Open as RGBA to preserve transparency
+
     img = Image.open(io.BytesIO(img_bytes)).convert("RGBA")
-    
-    # Create a solid white background and paste the canvas drawing onto it using its alpha channel
+
     bg = Image.new("RGBA", img.size, "WHITE")
     bg.paste(img, (0, 0), img)
-    
-    # Convert to grayscale (black strokes on white background)
+
     img_gray = bg.convert("L")
-    
-    # Quick, Draw! uses white strokes on black; canvas gives black on white → invert
+
     img_inverted = ImageOps.invert(img_gray)
-    
-    # Crop to the bounding box of the drawing (non-black pixels)
+
     bbox = img_inverted.getbbox()
     if bbox:
-        # Crop the image to the drawn area
+
         img_cropped = img_inverted.crop(bbox)
-        # Pad to make it square while keeping aspect ratio, and add a small 20% margin
-        # QuickDraw images are typically centered with a bit of margin
+
         max_dim = max(img_cropped.size)
         pad_size = int(max_dim * 1.2)
-        
-        # Create a new black square image and paste the centered crop
+
         img_square = Image.new("L", (pad_size, pad_size), 0)
         offset = ((pad_size - img_cropped.width) // 2, (pad_size - img_cropped.height) // 2)
         img_square.paste(img_cropped, offset)
-        
-        # Finally, resize to 28x28
+
         img_resized = img_square.resize((IMG_SIZE, IMG_SIZE), Image.Resampling.LANCZOS)
     else:
-        # If the canvas was completely empty, just use an empty 28x28
+
         img_resized = Image.new("L", (IMG_SIZE, IMG_SIZE), 0)
     
     arr = np.array(img_resized, dtype=np.float32) / 255.0
     tensor = torch.tensor(arr).unsqueeze(0).unsqueeze(0)  # (1,1,28,28)
     return tensor
 
-
-# ──────────────────────────────────────────────
-# Routes
-# ──────────────────────────────────────────────
 @app.get("/health")
 def health():
     return {"status": "ok", "model_loaded": _model is not None}
-
 
 @app.get("/categories")
 def categories():
@@ -163,7 +130,6 @@ def categories():
             for cat in CATEGORIES
         ]
     }
-
 
 @app.post("/predict", response_model=PredictResponse)
 def predict(req: PredictRequest):
@@ -202,7 +168,6 @@ def predict(req: PredictRequest):
         predictions=predictions,
         model_loaded=os.path.exists(WEIGHTS_PATH),
     )
-
 
 if __name__ == "__main__":
     import uvicorn

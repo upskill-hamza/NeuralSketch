@@ -23,7 +23,6 @@ IMG_SIZE  = 28
 
 _CHUNK = 1 << 20   # 1 MB read chunks
 
-
 def _http_download(url: str, dest: str, retries: int = 3) -> bool:
     """Download *url* to *dest* via HTTPS with retry/backoff. Returns True on success."""
     import urllib.request
@@ -46,7 +45,6 @@ def _http_download(url: str, dest: str, retries: int = 3) -> bool:
                 time.sleep(2 ** attempt)   # 2s, 4s back-off
     return False
 
-
 def _gsutil_download(gs_url: str, dest: str) -> bool:
     """Fallback: use gsutil (gcloud SDK) to copy from gs:// to local path."""
     if not shutil.which("gsutil"):
@@ -62,7 +60,6 @@ def _gsutil_download(gs_url: str, dest: str) -> bool:
             os.remove(dest)
         return False
     return True
-
 
 def download_data(data_dir: str = DATA_DIR, samples: int = SAMPLES_PER_CLASS):
     os.makedirs(data_dir, exist_ok=True)
@@ -101,7 +98,6 @@ def download_data(data_dir: str = DATA_DIR, samples: int = SAMPLES_PER_CLASS):
         )
     print("All downloads complete.")
 
-
 class QuickDrawDataset(Dataset):
     """
     Loads Quick, Draw! .npy files.
@@ -134,7 +130,6 @@ class QuickDrawDataset(Dataset):
         label = torch.tensor(self.labels[idx])
         return img, label
 
-
 def get_loaders(
     data_dir: str = DATA_DIR,
     samples_per_class: int = SAMPLES_PER_CLASS,
@@ -158,7 +153,6 @@ def get_loaders(
     )
     print(f"Train: {len(train_ds):,} | Val: {len(val_ds):,}")
     return train_loader, val_loader
-
 
 if __name__ == "__main__":
     print("Downloading Quick, Draw! dataset...")

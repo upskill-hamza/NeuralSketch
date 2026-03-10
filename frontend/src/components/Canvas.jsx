@@ -22,7 +22,6 @@ export default function Canvas({ onPredictions, onPredicting }) {
   const [brushIndex, setBrushIndex] = useState(1); // M default
   const [status, setStatus] = useState("idle");
 
-  // ── Helpers ──
   const getPos = (e, canvas) => {
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
@@ -66,7 +65,6 @@ export default function Canvas({ onPredictions, onPredicting }) {
     }, DEBOUNCE_MS);
   }, [hasStrokes, onPredictions, onPredicting]);
 
-  // ── Drawing ──
   const startDraw = useCallback((e) => {
     e.preventDefault();
     const canvas = canvasRef.current;
@@ -113,7 +111,6 @@ export default function Canvas({ onPredictions, onPredicting }) {
     triggerPrediction();
   }, [triggerPrediction]);
 
-  // ── Controls ──
   const clearCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = getCtx();
@@ -145,7 +142,6 @@ export default function Canvas({ onPredictions, onPredicting }) {
     }
   };
 
-  // ── Init canvas ──
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -153,7 +149,6 @@ export default function Canvas({ onPredictions, onPredicting }) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }, []);
 
-  // ── Event binding ──
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -193,7 +188,7 @@ export default function Canvas({ onPredictions, onPredicting }) {
           </div>
         </div>
 
-        {/* Brush size selector */}
+        
         <div className={styles.brushControls}>
           <span className={styles.brushLabel}>Brush:</span>
           <div className={styles.brushSizes}>
@@ -225,7 +220,7 @@ export default function Canvas({ onPredictions, onPredicting }) {
           </span>
         </div>
 
-        {/* Action buttons */}
+        
         <div className={styles.canvasControls}>
           <button
             className={`${styles.btn} ${styles.btnUndo}`}

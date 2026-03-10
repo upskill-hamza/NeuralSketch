@@ -1,4 +1,4 @@
-# Frontend — Nginx serving built React app
+
 FROM node:20-alpine AS builder
 
 WORKDIR /app

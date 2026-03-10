@@ -1,4 +1,4 @@
-# Model training Dockerfile (optional, for training only)
+
 FROM python:3.11-slim
 
 WORKDIR /app/model

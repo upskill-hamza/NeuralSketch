@@ -7,7 +7,7 @@
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react)](https://react.dev)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://docker.com)
 
-A real-time sketch recognition app powered by a CNN trained on the **Quick, Draw!** dataset. Achieves **94% accuracy** across **50 categories**. Draw on the canvas and get instant predictions.
+A real-time sketch recognition app powered by a CNN trained on the **Quick, Draw!** dataset. Achieves **80% accuracy** across **50 categories**. Draw on the canvas and get instant predictions.
 
 ---
 
@@ -111,8 +111,8 @@ neuralsketch/
 - **Input**: 28×28 grayscale bitmap
 - **Output**: 50-class softmax
 - **Parameters**: ~1.2M
-- **Dataset**: [Quick, Draw!](https://quickdraw.withgoogle.com/data) — 5,000 samples × 50 classes
-- **Accuracy**: ~94% validation accuracy
+- **Dataset**: [Quick, Draw!](https://quickdraw.withgoogle.com/data) — 1,000 samples × 50 classes
+- **Accuracy**: ~80% validation accuracy
 
 ## Categories
 

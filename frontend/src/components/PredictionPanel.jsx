@@ -29,7 +29,7 @@ export default function PredictionPanel({ predictions, isPredicting }) {
         <span className={styles.panelTitle}>🧠 AI Predictions</span>
       </div>
 
-      {/* Winner Card */}
+      
       <div className={styles.topPrediction}>
         {isPredicting ? (
           <div className={styles.loadingState}>
@@ -57,7 +57,7 @@ export default function PredictionPanel({ predictions, isPredicting }) {
         )}
       </div>
 
-      {/* Top-5 bars */}
+      
       <div className={styles.predictions}>
         {isPredicting
           ? Array.from({ length: 5 }).map((_, i) => (
@@ -108,7 +108,7 @@ export default function PredictionPanel({ predictions, isPredicting }) {
           : null}
       </div>
 
-      {/* Footer tags */}
+      
       <div className={styles.panelFooter}>
         {(expanded ? ALL_CATEGORIES : SAMPLE_CATEGORIES).map((cat) => (
           <span key={cat} className={styles.tag}>

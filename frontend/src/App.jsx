@@ -20,7 +20,7 @@ export default function App() {
     <div className="app">
       <Header />
       <main className="app-main">
-        {/* Top Status Bar */}
+        
         <div className="status-bar glass">
           <div className="status-item">
             <span className="status-value highlight">79.6%</span>
@@ -46,7 +46,7 @@ export default function App() {
         </div>
 
         <div className="app-layout">
-          {/* Left: Canvas */}
+          
           <section className="canvas-section">
             <Canvas
               onPredictions={setPredictions}
@@ -60,7 +60,7 @@ export default function App() {
             </div>
           </section>
 
-          {/* Right: Predictions */}
+          
           <section className="panel-section">
             <PredictionPanel
               predictions={predictions}
@@ -69,7 +69,7 @@ export default function App() {
           </section>
         </div>
 
-        {/* Bottom: features strip */}
+        
         <div className="features-strip">
           {[
             { icon: "⚡", label: "Real-time Inference", desc: "Less than 50ms latency per stroke" },
